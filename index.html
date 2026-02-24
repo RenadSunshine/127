@@ -1,0 +1,1398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EventGO</title>
+
+<!-- ===================== ALL CSS ===================== -->
+<style>
+/* Base */
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --orange:#f3702a;
+  --teal:#2aa58f;
+  --gray-pill:#e5e7eb;
+  --text:#111827;
+  --muted:#6b7280;
+  --bg:#eef1f4;
+  --card:#ffffff;
+  --border:#e5e7eb;
+  --dark:#0f1720;
+}
+
+body{
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color:var(--text);
+  background:#fff;
+}
+
+.container{
+  max-width:1100px;
+  margin:0 auto;
+  padding:0 18px;
+}
+
+/* Header/Navbar */
+.site-header{
+  position:sticky; top:0; z-index:100;
+  background:#fff;
+  border-bottom:1px solid var(--border);
+}
+
+.nav-container{
+  max-width:1100px;
+  margin:0 auto;
+  padding:12px 18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  height:64px;
+  padding:0 18px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  text-decoration:none;
+  color:var(--text);
+  font-weight:800;
+}
+
+.brand-icon{
+  width:150px;
+  height:72px;
+  border-radius:1px;
+  background:transparent;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  padding:0;
+  flex-shrink:0;
+}
+
+/* Logo Image*/
+.logo-img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  display:block;
+}
+
+.logo-img--auth{
+  border-radius:12px;
+}
+
+.nav-link{
+  text-decoration:none;
+  color:var(--text);
+  font-weight:600;
+  font-size:13px;
+}
+
+.nav-menu{
+  list-style:none;
+  display:flex;
+  align-items:center;
+  gap:16px;
+  margin:0;
+  padding:0;
+}
+
+.nav-pill{
+  padding:8px 14px;
+  border-radius:999px;
+  border:1px solid transparent;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.nav-pill--active{
+  background:var(--teal);
+  color:#fff;
+}
+
+.nav-pill--gray{
+  background:var(--gray-pill);
+  color:#111;
+}
+
+.nav-pill--success{
+  background:var(--teal);
+  color:#fff;
+}
+
+.nav-pill--primary{
+  background:var(--orange);
+  color:#fff;
+}
+
+.nav-toggle{
+  display:none;
+  border:none;
+  background:transparent;
+  font-size:22px;
+  cursor:pointer;
+}
+
+/* Hero */
+.hero{
+  position:relative;
+  height:420px;
+  overflow:hidden;
+  background:#000;
+  text-align:center;
+}
+
+/* Slides */
+.hero-slide{
+  position:absolute;
+  inset:0;
+  background-size:cover;
+  background-position:center;
+  opacity:0;
+  transform:scale(1.02);
+  transition: opacity .6s ease, transform .8s ease;
+}
+
+/* dark overlay like old gradient */
+.hero-slide::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background: linear-gradient(90deg, rgba(0,0,0,.65), rgba(0,0,0,.28));
+}
+
+.hero-slide--active{
+  opacity:1;
+  transform:scale(1);
+}
+
+/* Text container*/
+.hero-inner{
+  position:relative;
+  z-index:2;
+  height:100%;
+  width:100%;
+  max-width:760px;
+  margin:0 auto;
+  padding:0 18px;
+  color:#fff;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+}
+.hero-tag{
+  display:inline-block;
+  background:var(--teal);
+  color:#fff;
+  font-weight:800;
+  font-size:11px;
+  padding:6px 14px;
+  border-radius:999px;
+  margin-bottom:10px;
+}
+
+.hero-title{
+  font-size:44px;
+  line-height:1.05;
+  margin-bottom:10px;
+  letter-spacing:.2px;
+}
+
+.hero-meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:14px;
+  align-items:center;
+  justify-content:center;
+  color:rgba(255,255,255,.9);
+  font-weight:600;
+  font-size:12px;
+  margin-bottom:14px;
+}
+
+.meta-item{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+}
+
+.hero-arrow{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  width:38px;height:38px;
+  border-radius:50%;
+  border:none;
+  background:rgba(42,165,143,.9);
+  color:#fff;
+  font-size:22px;
+  cursor:pointer;
+}
+
+.hero-arrow--left{left:16px}
+.hero-arrow--right{right:16px}
+.hero-arrow{ z-index: 3; }
+
+/* Buttons */
+.btn{
+  border:none;
+  cursor:pointer;
+  border-radius:10px;
+  padding:10px 18px;
+  font-weight:800;
+  font-size:13px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+}
+
+.btn-primary{
+  background:var(--orange);
+  color:#fff;
+  box-shadow:0 4px 10px rgba(243,112,42,.25);
+}
+
+.btn-block{width:100%}
+
+.btn-card{
+  width:130px;
+  margin:10px auto 0;
+  display:flex;
+}
+
+/* Icons (svg) */
+.icon{width:16px;height:16px;display:inline-flex}
+.icon svg{width:16px;height:16px;fill:currentColor}
+.icon.orange{color:var(--orange)}
+.icon.white{color:#fff}
+
+.li-icon{
+  width:14px;height:14px;
+  display:inline-flex;
+  color:var(--orange);
+}
+.li-icon svg{width:14px;height:14px;fill:currentColor}
+
+/* Inputs */
+.input{
+  width:100%;
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:10px 12px;
+  font-size:13px;
+  outline:none;
+  background:#fff;
+}
+
+.input:focus{border-color:var(--orange)}
+
+.input-with-icon{position:relative;flex:1}
+.inside-icon{
+  position:absolute;
+  right:10px;
+  top:50%;
+  transform:translateY(-50%);
+  width:16px;height:16px;
+  color:#9ca3af;
+}
+.inside-icon svg{width:16px;height:16px;fill:currentColor}
+
+/* Search strip */
+.search-strip{
+  background:#fff;
+  padding:16px 0 22px;
+}
+
+.search-label{
+  text-align:center;
+  font-weight:700;
+  font-size:12px;
+  margin-bottom:10px;
+}
+
+.search-row{
+  display:flex;
+  gap:14px;
+  align-items:center;
+  justify-content:center;
+  max-width:620px;
+  margin:0 auto;
+}
+
+.btn-search{padding:10px 16px}
+
+/* About */
+.about{
+  background:#fff;
+  padding:34px 0 40px;
+}
+
+.about-inner{
+  text-align:center;
+  max-width:760px;
+}
+
+.about h2{
+  font-size:40px;
+  margin-bottom:10px;
+}
+
+.about p{
+  color:var(--text);
+  opacity:.8;
+  font-size:13px;
+  line-height:1.9;
+}
+
+/* Events section */
+.events{
+  background:var(--bg);
+  padding:28px 0 44px;
+}
+
+.section-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:16px;
+}
+
+.section-head h2{
+  font-size:22px;
+}
+
+.view-all{
+  text-decoration:none;
+  color:var(--orange);
+  font-weight:800;
+  font-size:13px;
+}
+
+.cards{
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:18px;
+}
+
+.card{
+  background:var(--card);
+  border-radius:14px;
+  overflow:hidden;
+  box-shadow:0 6px 18px rgba(0,0,0,.08);
+}
+
+.card-img{
+  position:relative;
+  height:150px;
+  background:#ddd;
+}
+
+.card-img img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+.badge{
+  position:absolute;
+  top:10px;
+  left:10px;
+  font-size:11px;
+  font-weight:800;
+  padding:6px 12px;
+  border-radius:999px;
+  color:#fff;
+}
+
+.badge-ent{background:var(--teal)}
+.badge-sport{background:var(--teal)}
+.badge-expo{background:var(--teal)}
+
+.card-body{padding:14px}
+.card-body h3{font-size:14px;margin-bottom:10px}
+
+.card-list{
+  list-style:none;
+  color:var(--muted);
+  font-size:12px;
+  display:grid;
+  gap:8px;
+}
+
+.card-list li{
+  display:flex;
+  gap:8px;
+  align-items:center;
+}
+
+.dots{
+  display:flex;
+  gap:6px;
+  justify-content:center;
+  margin-top:14px;
+}
+
+.dot{width:7px;height:7px;border-radius:50%;background:#cfd4da}
+.dot-active{background:var(--orange)}
+
+/* Auth pages */
+.auth-page{
+  background:var(--bg);
+  min-height:calc(100vh - 220px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:30px 18px;
+}
+
+.auth-card{
+  width:100%;
+  max-width:520px;
+  background:#fff;
+  border-radius:14px;
+  padding:24px;
+  box-shadow:0 10px 26px rgba(0,0,0,.10);
+  text-align:center;
+}
+
+.auth-top-icon{
+  width:250px;
+  height:80px;
+  margin:0 auto 10px;
+  border-radius:12px;
+  background:transparent;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  padding:0;
+}
+
+.auth-card h1{font-size:26px;margin-bottom:6px}
+.auth-subtitle{color:var(--text);opacity:.75;font-weight:600;font-size:13px;margin-bottom:18px}
+
+.auth-tabs{
+  display:flex;
+  border:1px solid var(--border);
+  border-radius:10px;
+  overflow:hidden;
+  margin-bottom:18px;
+}
+
+.tab{
+  flex:1;
+  text-decoration:none;
+  padding:12px 10px;
+  font-weight:800;
+  font-size:13px;
+  color:var(--text);
+  background:#fff;
+}
+
+.tab.active{
+  background:var(--orange);
+  color:#fff;
+}
+
+.label{
+  display:block;
+  text-align:left;
+  font-weight:800;
+  font-size:13px;
+  margin:12px 0 8px;
+}
+
+.input-wrap{position:relative}
+
+.icon-btn{
+  position:absolute;
+  right:10px;
+  top:50%;
+  transform:translateY(-50%);
+  width:40px;height:40px;
+  border:none;
+  background:transparent;
+  cursor:pointer;
+  font-size:18px;
+}
+
+.row-right{
+  text-align:right;
+  margin:10px 0 12px;
+}
+
+.link{
+  color:var(--orange);
+  text-decoration:none;
+  font-weight:800;
+  font-size:13px;
+}
+
+.error-message{
+  background:#ffd8d8;
+  color:#b00020;
+  border-radius:10px;
+  padding:10px 12px;
+  font-size:13px;
+  margin:10px 0;
+  text-align:left;
+}
+
+.auth-footer{
+  margin-top:14px;
+  color:var(--muted);
+  font-weight:600;
+  font-size:13px;
+}
+
+.back-home{
+  display:block;
+  margin-top:18px;
+  color:var(--orange);
+  text-decoration:none;
+  font-weight:900;
+  font-size:13px;
+}
+
+/* Footer */
+.site-footer{
+  background:var(--dark);
+  color:#fff;
+  padding-top:22px;
+}
+
+.footer-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:18px;
+  padding-bottom:14px;
+  align-items:start;
+}
+
+.footer-logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.footer-logo .brand-icon{
+  width:150px;
+  height:40px;
+}
+
+.site-footer h4{
+  font-size:14px;
+  font-weight:900;
+  margin-bottom:10px;
+}
+
+.footer-links a{
+  display:block;
+  color:#d1d5db;
+  text-decoration:none;
+  font-weight:600;
+  font-size:13px;
+  margin:8px 0;
+}
+
+.footer-contact p{
+  color:#d1d5db;
+  font-weight:600;
+  font-size:13px;
+  margin:8px 0;
+}
+
+.social{
+  display:flex;
+  gap:12px;
+  margin-top:12px;
+}
+
+.social a{
+  width:34px;height:34px;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,.18);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-decoration:none;
+  color:#fff;
+}
+
+.social svg{width:18px;height:18px;fill:currentColor}
+
+.footer-bottom{
+  border-top:1px solid rgba(255,255,255,.12);
+  text-align:center;
+  color:#cfd4da;
+  font-weight:700;
+  font-size:12px;
+  padding:14px 12px;
+}
+
+/* Responsive */
+@media (max-width: 900px){
+  .cards{grid-template-columns:1fr}
+  .hero-title{font-size:32px}
+  .footer-grid{grid-template-columns:1fr}
+  .search-row{flex-direction:column}
+}
+
+@media (max-width: 768px){
+  .nav-toggle{display:block}
+  .nav-menu{
+    display:none;
+    position:absolute;
+    top:60px;
+    left:0; right:0;
+    background:#fff;
+    border-bottom:1px solid var(--border);
+    padding:14px 18px;
+    flex-direction:column;
+    gap:12px;
+  }
+  .nav-menu.active{display:flex}
+} 
+/* Modal (Forgot Password) */
+.modal{
+  position:fixed;
+  inset:0;
+  display:none;
+  z-index:999;
+}
+
+.modal.show{ display:block; }
+
+.modal-overlay{
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,.45);
+}
+
+.modal-card{
+  position:relative;
+  width:min(520px, calc(100% - 36px));
+  margin:80px auto;
+  background:#fff;
+  border-radius:14px;
+  padding:20px;
+  box-shadow:0 14px 40px rgba(0,0,0,.18);
+}
+
+.modal-card h2{
+  font-size:18px;
+  margin-bottom:6px;
+}
+
+.modal-text{
+  color:var(--muted);
+  font-weight:600;
+  font-size:13px;
+  margin-bottom:12px;
+}
+
+.modal-actions{
+  display:flex;
+  gap:10px;
+  margin-top:14px;
+}
+
+.modal-actions .btn{
+  flex:1;
+}
+</style>
+</head>
+
+<body>
+
+<!-- ===================== HEADER (ONE TIME ONLY) ===================== -->
+<header class="site-header">
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="#" class="brand" onclick="showPage('home')">
+        <span class="brand-icon">
+          <img src="o1.png" class="logo-img">
+        </span>
+      </a>
+
+      <button class="nav-toggle" id="navToggle">☰</button>
+
+      <ul class="nav-menu" id="navMenu">
+        <li><a class="nav-link nav-pill nav-pill--active" href="#" onclick="showPage('home')">Home</a></li>
+        <li><a class="nav-link" href="#" onclick="viewEvents()">Event List</a></li>
+        <li><a class="nav-link nav-pill nav-pill--gray" href="#" onclick="showPage('login')">Login</a></li>
+        <li><a class="nav-link nav-pill nav-pill--primary" href="#" onclick="showPage('signup')">Sign Up</a></li>
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<!-- ===================== HOME PAGE ===================== -->
+<main id="homePage">
+<!-- Hero Slider -->
+<section class="hero" id="hero">
+  <button class="hero-arrow hero-arrow--left" type="button" aria-label="Previous" id="heroPrev">‹</button>
+  <button class="hero-arrow hero-arrow--right" type="button" aria-label="Next" id="heroNext">›</button>
+
+  <!-- Slides -->
+  <div class="hero-slide hero-slide--active"
+       style="background-image:url('y1.png');"
+       data-tag="ENTERTAINMENT"
+       data-title="Summer Music Festival 2026"
+       data-date="01 JUN 2026 at 18:00"
+       data-place="KSPO DOME, Seoul"></div>
+
+  <div class="hero-slide"
+       style="background-image:url('j1.png');"
+       data-tag="SPORTS"
+       data-title="National Sports Championship"
+       data-date="15 SEP 2026 at 14:00"
+       data-place="Mall of Asia (MOA) Arena, Philippines"></div>
+
+  <div class="hero-slide"
+       style="background-image:url('a1.png');"
+       data-tag="EXHIBITION"
+       data-title="Tech & Innovation Expo"
+       data-date="25 OCT 2026 at 15:00"
+       data-place="SM Entertainment, Seoul"></div>
+
+  <div class="hero-inner">
+    <span class="hero-tag" id="heroTag">ENTERTAINMENT</span>
+    <h1 class="hero-title" id="heroTitle">Summer Music Festival 2026</h1>
+
+    <div class="hero-meta">
+      <span class="meta-item">
+        <span class="icon orange">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2V2h-2v2H9V2H7zm12 8H5v10h14V10z"/></svg>
+        </span>
+        <span id="heroDate">01 JUN 2026 at 18:00</span>
+      </span>
+
+      <span class="meta-item">
+        <span class="icon orange">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/></svg>
+        </span>
+        <span id="heroPlace">KSPO DOME, Seoul</span>
+      </span>
+    </div>
+
+    <button class="btn btn-primary" type="button" onclick="viewEvents()">View Events</button>
+  </div>
+</section>
+    <!-- Search -->
+    <section class="search-strip">
+      <div class="container">
+        <p class="search-label">Search events by date</p>
+
+        <div class="search-row">
+          <div class="input-with-icon">
+            <input type="date" id="dateSearch" class="input" aria-label="Search by date" />
+            <span class="inside-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M7 2v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2V2h-2v2H9V2H7zm12 8H5v10h14V10z"/></svg>
+            </span>
+          </div>
+
+          <button class="btn btn-primary btn-search" type="button" onclick="searchEvents()">
+            <span class="icon white">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 2a8 8 0 1 0 4.9 14.3l4.4 4.4 1.4-1.4-4.4-4.4A8 8 0 0 0 10 2zm0 2a6 6 0 1 1 0 12A6 6 0 0 1 10 4z"/></svg>
+            </span>
+            Search Events
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section class="about">
+      <div class="container about-inner">
+        <h2>About Us</h2>
+        <p>
+          Your on-stop platform for discovering booking tickets for all of events.
+          From fairs and exhibitions to sports, entertainment, and volunteering, we make it easy to find
+          your next experience.
+        </p>
+      </div>
+    </section>
+
+    <!-- Events -->
+    <section class="events" id="events">
+      <div class="container">
+        <div class="section-head">
+          <h2>Upcoming Events</h2>
+          <a class="view-all" href="#events">View All <span aria-hidden="true">→</span></a>
+        </div>
+
+        <div class="cards">
+          <!-- Card 1 -->
+          <article class="card">
+            <div class="card-img">
+              <img src="y1.png" alt="Summer Music Festival 2026" loading="lazy">
+              <span class="badge badge-ent">Entertainment</span>
+            </div>
+            <div class="card-body">
+              <h3>Summer Music Festival 2026</h3>
+
+              <ul class="card-list">
+                <li><span class="li-icon">
+                  <svg viewBox="0 0 24 24"><path d="M7 2v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2V2h-2v2H9V2H7zm12 8H5v10h14V10z"/></svg>
+                </span>01 JUN 2026</li>
+
+                <li><span class="li-icon">
+                  <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 11h5v-2h-4V7h-2v6z"/></svg>
+                </span>18:00</li>
+
+                <li><span class="li-icon">
+                  <svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/></svg>
+                </span>KSPO DOME, Seoul</li>
+
+                <li><span class="li-icon">
+                  <svg viewBox="0 0 24 24"><path d="M12 1 3 5v6c0 5 4 10 9 12 5-2 9-7 9-12V5l-9-4zm1 12h2a2 2 0 0 0 0-4h-2V7h3V5h-3V3h-2v2H9v2h2v2H9a2 2 0 0 0 0 4h2v2H8v2h3v2h2v-2h2v-2h-2v-2z"/></svg>
+                </span>$75.00</li>
+              </ul>
+
+              <button class="btn btn-primary btn-card" type="button" onclick="bookEvent('Summer Music Festival 2026')">
+                View Events
+              </button>
+            </div>
+          </article>
+
+          <!-- Card 2 -->
+          <article class="card">
+            <div class="card-img">
+              <img src="j1.png" alt="National Sports Championship" loading="lazy">
+              <span class="badge badge-sport">Sports</span>
+            </div>
+            <div class="card-body">
+              <h3>National Sports Championship</h3>
+              <ul class="card-list">
+                <li><span class="li-icon"><svg viewBox="0 0 24 24"><path d="M7 2v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2V2h-2v2H9V2H7zm12 8H5v10h14V10z"/></svg></span>15 SEP 2026</li>
+                <li><span class="li-icon"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 11h5v-2h-4V7h-2v6z"/></svg></span>14:00</li>
+                <li><span class="li-icon"><svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/></svg></span>Mall of Asia (MOA) Arena, Philippines</li>
+                <li><span class="li-icon"><svg viewBox="0 0 24 24"><path d="M12 1 3 5v6c0 5 4 10 9 12 5-2 9-7 9-12V5l-9-4zm1 12h2a2 2 0 0 0 0-4h-2V7h3V5h-3V3h-2v2H9v2h2v2H9a2 2 0 0 0 0 4h2v2H8v2h3v2h2v-2h2v-2h-2v-2z"/></svg></span>$50.00</li>
+              </ul>
+
+              <button class="btn btn-primary btn-card" type="button" onclick="bookEvent('National Sports Championship')">
+                View Events
+              </button>
+            </div>
+          </article>
+
+          <!-- Card 3 -->
+          <article class="card">
+            <div class="card-img">
+              <img src="a1.png" alt="Tech & Innovation Expo" loading="lazy">
+              <span class="badge badge-expo">Exhibition</span>
+            </div>
+            <div class="card-body">
+              <h3>Tech & Innovation Expo</h3>
+              <ul class="card-list">
+                <li><span class="li-icon"><svg viewBox="0 0 24 24"><path d="M7 2v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2V2h-2v2H9V2H7zm12 8H5v10h14V10z"/></svg></span>25 OCT 2026</li>
+                <li><span class="li-icon"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 11h5v-2h-4V7h-2v6z"/></svg></span>15:00</li>
+                <li><span class="li-icon"><svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/></svg></span>SM Entertainment, Seoul</li>
+                <li><span class="li-icon"><svg viewBox="0 0 24 24"><path d="M12 1 3 5v6c0 5 4 10 9 12 5-2 9-7 9-12V5l-9-4zm1 12h2a2 2 0 0 0 0-4h-2V7h3V5h-3V3h-2v2H9v2h2v2H9a2 2 0 0 0 0 4h2v2H8v2h3v2h2v-2h2v-2h-2v-2z"/></svg></span>$30.00</li>
+              </ul>
+
+              <button class="btn btn-primary btn-card" type="button" onclick="bookEvent('Tech & Innovation Expo')">
+                View Events
+              </button>
+            </div>
+          </article>
+        </div>
+
+        <div class="dots" aria-hidden="true">
+          <span class="dot dot-active"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+<!-- ===================== LOGIN PAGE ===================== -->
+<main id="loginPage" class="auth-page" hidden>
+    <div class="auth-card">
+      <div class="auth-top-icon">
+      <img src="o1.png" alt="EventGO Logo" class="logo-img logo-img--auth"></div>
+      <h1>Welcome to EventGO</h1>
+      <p class="auth-subtitle">Log in to your account to book events.</p>
+
+      <div class="auth-tabs">
+        <a href="login.html" class="tab active">Login</a>
+        <a href="signup.html" class="tab">Sign Up</a>
+      </div>
+
+      <form id="loginForm" onsubmit="handleLogin(event)">
+        <label class="label" for="email">Email</label>
+        <input class="input" type="email" id="email" placeholder="you@example.com" required />
+
+        <label class="label" for="password">Password</label>
+        <div class="input-wrap">
+          <input class="input" type="password" id="password" placeholder="Enter your password" required />
+          <button type="button" class="icon-btn" onclick="togglePassword('password', this)" aria-label="Show password">👁️</button>
+        </div>
+
+        <div class="row-right">
+          <a class="link" href="#" onclick="openForgotModal(); return false;">Forgot Password?</a>
+        </div>
+
+        <div id="loginError" class="error-message" style="display:none;"></div>
+
+        <button type="submit" class="btn btn-primary btn-block">Login</button>
+
+        <p class="auth-footer">
+          Don’t have an account? <a class="link" href="signup.html">Sign Up</a>
+        </p>
+      </form>
+
+      <a class="back-home" href="index.html">Return to Home Page</a>
+    </div>
+  </main>
+
+<!-- ===================== SIGNUP PAGE ===================== -->
+<main id="signupPage" class="auth-page" hidden>
+    <div class="auth-card">
+      <div class="auth-top-icon">
+      <img src="o1.png" alt="EventGO Logo" class="logo-img logo-img--auth"></div>
+      <h1>Welcome to EventGO</h1>
+      <p class="auth-subtitle">Create a new account to start booking.</p>
+
+      <div class="auth-tabs">
+        <a href="login.html" class="tab">Login</a>
+        <a href="signup.html" class="tab active">Sign Up</a>
+      </div>
+
+      <form id="signupForm" onsubmit="handleSignup(event)">
+        <label class="label" for="name">Name</label>
+        <input class="input" type="text" id="name" placeholder="Your name" required />
+
+        <label class="label" for="email">Email</label>
+        <input class="input" type="email" id="email" placeholder="you@example.com" required />
+
+        <label class="label" for="password">Password</label>
+        <div class="input-wrap">
+          <input class="input" type="password" id="password" placeholder="Minimum 6 characters" required />
+          <button type="button" class="icon-btn" onclick="togglePassword('password', this)" aria-label="Show password">👁️</button>
+        </div>
+
+        <label class="label" for="confirmPassword">Confirm Password</label>
+        <div class="input-wrap">
+          <input class="input" type="password" id="confirmPassword" placeholder="Re-enter your password" required />
+          <button type="button" class="icon-btn" onclick="togglePassword('confirmPassword', this)" aria-label="Show password">👁️</button>
+        </div>
+
+        <div id="signupError" class="error-message" style="display:none;"></div>
+
+        <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
+
+        <p class="auth-footer">
+          Already have an account? <a class="link" href="login.html">Login</a>
+        </p>
+      </form>
+
+      <a class="back-home" href="index.html">Return to Home Page</a>
+    </div>
+  </main>
+
+<!-- ===================== RESET PASSWORD PAGE ===================== -->
+<main id="resetPage" class="auth-page" hidden>
+  <div class="auth-card">
+    <div class="auth-top-icon">
+      <img src="o1.png" alt="EventGO Logo" class="logo-img logo-img--auth">
+    </div>
+
+    <h1>Create New Password</h1>
+    <p class="auth-subtitle">Enter a new password for your account.</p>
+
+    <form onsubmit="handleResetPassword(event)">
+      <label class="label" for="newPassword">New Password</label>
+      <div class="input-wrap">
+        <input class="input" type="password" id="newPassword" placeholder="Minimum 6 characters" required />
+        <button type="button" class="icon-btn" onclick="togglePassword('newPassword', this)" aria-label="Show password">👁️</button>
+      </div>
+
+      <label class="label" for="confirmNewPassword">Confirm New Password</label>
+      <div class="input-wrap">
+        <input class="input" type="password" id="confirmNewPassword" placeholder="Re-enter your password" required />
+        <button type="button" class="icon-btn" onclick="togglePassword('confirmNewPassword', this)" aria-label="Show password">👁️</button>
+      </div>
+
+      <div id="resetError" class="error-message" style="display:none;"></div>
+
+      <button type="submit" class="btn btn-primary btn-block">Create Password</button>
+    </form>
+
+    <a class="back-home" href="login.html">Back to Login</a>
+  </div>
+</main>
+
+<!-- ===================== FOOTER (ONE TIME ONLY) ===================== -->
+<footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <span class="brand-icon">
+          <img src="fo1.png" alt="EventGO Logo" class="logo-img"></span>
+        </div>
+      </div>
+
+      <div class="footer-links">
+        <h4>SITE MAPS</h4>
+        <a href="index.html">Home</a>
+        <a href="#events">Events List</a>
+        <a href="login.html">Log In</a>
+        <a href="signup.html">Sign Up</a>
+      </div>
+
+      <div class="footer-contact">
+        <h4>CONTACT US</h4>
+        <p>Support@eventgo.com</p>
+        <p>+966533586392</p>
+
+        <div class="social">
+          <a href="https://www.instagram.com/smtown/" target="_blank" rel="noopener noreferrer" aria-label="Instagram (SMTOWN)">
+            <svg viewBox="0 0 24 24"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm10 2H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3zm-5 3a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6zm6-2a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/></svg>
+          </a>
+
+          <a href="https://twitter.com/SMTOWNGLOBAL/" target="_blank" rel="noopener noreferrer" aria-label="X (SMTOWNGLOBAL)">
+            <svg viewBox="0 0 24 24"><path d="M18.9 2H22l-6.8 7.8L23 22h-6.3l-4.9-6.2L6.4 22H3.3l7.3-8.4L1 2h6.4l4.4 5.6L18.9 2zm-1.1 18h1.7L7.4 3.9H5.6L17.8 20z"/></svg>
+          </a>
+
+          <a href="https://www.facebook.com/smtown/" target="_blank" rel="noopener noreferrer" aria-label="Facebook (SMTOWN)">
+            <svg viewBox="0 0 24 24"><path d="M13 22v-8h3l1-4h-4V7.5c0-1 .3-1.5 1.7-1.5H17V2.1c-.4-.1-1.8-.1-3.4-.1C10.8 2 9 3.7 9 6.9V10H6v4h3v8h4z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">© 2026 EventGO. All rights reserved.</div>
+  </footer>
+
+<!-- ===================== FORGOT PASSWORD MODAL ===================== -->
+
+  <div class="modal" id="forgotModal" aria-hidden="true">
+  <div class="modal-overlay" onclick="closeForgotModal()"></div>
+
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="forgotTitle">
+    <h2 id="forgotTitle">Reset your password</h2>
+    <p class="modal-text">Enter your email and we will send you a reset link.</p>
+
+    <label class="label" for="forgotEmail">Email</label>
+    <input class="input" type="email" id="forgotEmail" placeholder="you@example.com" />
+
+    <div id="forgotError" class="error-message" style="display:none;"></div>
+
+    <div class="modal-actions">
+      <button class="btn btn-primary" type="button" onclick="sendResetLink()">Send Reset Link</button>
+      <button class="btn" type="button" onclick="closeForgotModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== ALL JAVASCRIPT ===================== -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  // ===== Mobile menu =====
+  const navToggle = document.getElementById("navToggle");
+  const navMenu = document.getElementById("navMenu");
+
+  if (navToggle && navMenu) {
+    navToggle.addEventListener("click", () => {
+      navMenu.classList.toggle("active");
+      const expanded = navToggle.getAttribute("aria-expanded") === "true";
+      navToggle.setAttribute("aria-expanded", String(!expanded));
+    });
+
+    document.addEventListener("click", (e) => {
+      if (!navMenu.contains(e.target) && !navToggle.contains(e.target)) {
+        navMenu.classList.remove("active");
+        navToggle.setAttribute("aria-expanded", "false");
+      }
+    });
+  }
+
+  // ===== Hero slider (only works on home page) =====
+  const slides = Array.from(document.querySelectorAll(".hero-slide"));
+  if (slides.length) {
+    const prevBtn = document.getElementById("heroPrev");
+    const nextBtn = document.getElementById("heroNext");
+
+    const tagEl = document.getElementById("heroTag");
+    const titleEl = document.getElementById("heroTitle");
+    const dateEl = document.getElementById("heroDate");
+    const placeEl = document.getElementById("heroPlace");
+
+    let index = 0;
+    let timer;
+
+    function showSlide(i) {
+      slides.forEach((s) => s.classList.remove("hero-slide--active"));
+      slides[i].classList.add("hero-slide--active");
+
+      if (tagEl) tagEl.textContent = slides[i].dataset.tag || "";
+      if (titleEl) titleEl.textContent = slides[i].dataset.title || "";
+      if (dateEl) dateEl.textContent = slides[i].dataset.date || "";
+      if (placeEl) placeEl.textContent = slides[i].dataset.place || "";
+    }
+
+    function next() {
+      index = (index + 1) % slides.length;
+      showSlide(index);
+    }
+
+    function prev() {
+      index = (index - 1 + slides.length) % slides.length;
+      showSlide(index);
+    }
+
+    function startAuto() {
+      clearInterval(timer);
+      timer = setInterval(next, 4000);
+    }
+
+    nextBtn?.addEventListener("click", () => {
+      next();
+      startAuto();
+    });
+
+    prevBtn?.addEventListener("click", () => {
+      prev();
+      startAuto();
+    });
+
+    showSlide(index);
+    startAuto();
+  }
+});
+
+// ===================== COMMON FUNCTIONS =====================
+
+function togglePassword(inputId, button) {
+  const input = document.getElementById(inputId);
+  if (!input) return;
+
+  if (input.type === "password") {
+    input.type = "text";
+    button.textContent = "👁️‍🗨️";
+  } else {
+    input.type = "password";
+    button.textContent = "👁️";
+  }
+}
+
+function viewEvents() {
+  const el = document.getElementById("events");
+  if (el) el.scrollIntoView({ behavior: "smooth" });
+}
+
+function searchEvents() {
+  const searchDate = document.getElementById("dateSearch")?.value;
+  if (!searchDate) return alert("Please select a date to search");
+  alert(`Searching for events on: ${new Date(searchDate).toLocaleDateString()}`);
+}
+
+function bookEvent(name) {
+  alert(`You're about to book: ${name}\nPlease login to complete your booking.`);
+  window.location.href = "login.html";
+}
+
+// ===================== VALIDATION =====================
+
+// Strict email validation (rejects j.@g.c / name@/name.com / etc.)
+function isValidEmail(email) {
+  if (/\s/.test(email)) return false;
+
+  const re =
+    /^[A-Za-z0-9]+([._%+-]?[A-Za-z0-9]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,24}$/;
+
+  if (!re.test(email)) return false;
+  if (email.includes("..")) return false;
+  return true;
+}
+
+// Strong password: 8+ chars, 1 letter, 1 number, 1 special
+function isStrongPassword(password) {
+  const hasLength = password.length >= 8;
+  const hasLetter = /[A-Za-z]/.test(password);
+  const hasNumber = /[0-9]/.test(password);
+  const hasSpecial = /[^A-Za-z0-9]/.test(password);
+  return hasLength && hasLetter && hasNumber && hasSpecial;
+}
+
+// ===================== ERROR MESSAGE =====================
+
+function showError(div, message) {
+  if (!div) return;
+  div.textContent = message;
+  div.style.display = "block";
+  setTimeout(() => (div.style.display = "none"), 3000);
+}
+
+document.addEventListener("input", (e) => {
+  if (e.target.matches("input")) {
+    const form = e.target.closest("form");
+    const errorDiv = form?.querySelector(".error-message");
+    if (errorDiv) errorDiv.style.display = "none";
+  }
+});
+
+// ===================== FORGOT PASSWORD MODAL =====================
+
+function openForgotModal() {
+  const modal = document.getElementById("forgotModal");
+  const emailInput = document.getElementById("forgotEmail");
+  const err = document.getElementById("forgotError");
+
+  if (err) err.style.display = "none";
+  if (emailInput) emailInput.value = "";
+
+  modal?.classList.add("show");
+  modal?.setAttribute("aria-hidden", "false");
+  emailInput?.focus();
+}
+
+function closeForgotModal() {
+  const modal = document.getElementById("forgotModal");
+  modal?.classList.remove("show");
+  modal?.setAttribute("aria-hidden", "true");
+}
+
+function sendResetLink() {
+  const email = document.getElementById("forgotEmail")?.value.trim();
+  const err = document.getElementById("forgotError");
+
+  if (!email) return showError(err, "Please enter your email first.");
+  if (!isValidEmail(email)) return showError(err, "Your email is not correct. Please try again.");
+
+  // Demo: save requested email
+  localStorage.setItem("resetEmail", email);
+
+  closeForgotModal();
+  alert("We sent a reset link to your email. (Demo) You will now go to the reset page.");
+  window.location.href = "reset-password.html";
+}
+
+// ===================== LOGIN =====================
+
+function handleLogin(event) {
+  event.preventDefault();
+
+  const email = document.getElementById("email")?.value.trim();
+  const password = document.getElementById("password")?.value;
+  const errorDiv = document.getElementById("loginError");
+
+  if (!email || !password) return showError(errorDiv, "Please fill in all fields.");
+  if (!isValidEmail(email)) return showError(errorDiv, "Your email is not correct. Please try again.");
+
+  // Password rule (your requirement)
+  if (!isStrongPassword(password)) {
+    return showError(
+      errorDiv,
+      "Password must be at least 8 characters and include 1 letter, 1 number, and 1 special character."
+    );
+  }
+
+  // Demo account check (saved from signup / reset)
+  const savedEmail = localStorage.getItem("userEmail");
+  const savedPassword = localStorage.getItem("userPassword");
+
+  if (!savedEmail || !savedPassword) {
+    return showError(errorDiv, "Your email or password is wrong. Please try again.");
+  }
+
+  if (email !== savedEmail || password !== savedPassword) {
+    return showError(errorDiv, "Your email or password is wrong. Please try again.");
+  }
+
+  alert("Login successful! Welcome back to EventGO.");
+  window.location.href = "index.html";
+}
+
+// ===================== SIGNUP =====================
+
+function handleSignup(event) {
+  event.preventDefault();
+
+  const name = document.getElementById("name")?.value.trim();
+  const email = document.getElementById("email")?.value.trim();
+  const password = document.getElementById("password")?.value;
+  const confirmPassword = document.getElementById("confirmPassword")?.value;
+  const errorDiv = document.getElementById("signupError");
+
+  if (!name || !email || !password || !confirmPassword) return showError(errorDiv, "Please fill in all fields.");
+  if (!isValidEmail(email)) return showError(errorDiv, "Your email is not correct. Please try again.");
+
+  if (!isStrongPassword(password)) {
+    return showError(
+      errorDiv,
+      "Password must be at least 8 characters and include 1 letter, 1 number, and 1 special character."
+    );
+  }
+
+  if (password !== confirmPassword) return showError(errorDiv, "Passwords do not match.");
+
+  // Save demo account
+  localStorage.setItem("userEmail", email);
+  localStorage.setItem("userPassword", password);
+
+  alert("Sign up successful! Welcome to EventGO. Please login.");
+  window.location.href = "login.html";
+}
+
+// ===================== RESET PASSWORD PAGE =====================
+// Call this from reset-password.html form: onsubmit="handleResetPassword(event)"
+
+function handleResetPassword(event) {
+  event.preventDefault();
+
+  const newPass = document.getElementById("newPassword")?.value || "";
+  const confirmPass = document.getElementById("confirmNewPassword")?.value || "";
+  const err = document.getElementById("resetError");
+
+  if (!isStrongPassword(newPass)) {
+    return showError(
+      err,
+      "Password must be at least 8 characters and include 1 letter, 1 number, and 1 special character."
+    );
+  }
+
+  if (newPass !== confirmPass) return showError(err, "Passwords do not match.");
+
+  const oldPass = localStorage.getItem("userPassword");
+  if (oldPass && newPass === oldPass) {
+    return showError(err, "You cannot use your old password. Please choose a new one.");
+  }
+
+  localStorage.setItem("userPassword", newPass);
+
+  alert("Your password has been updated. Please log in with your new password.");
+  window.location.href = "login.html";
+}
+
+/* ===== PAGE SWITCHING ===== */
+function showPage(page) {
+  homePage.hidden = true;
+  loginPage.hidden = true;
+  signupPage.hidden = true;
+  resetPage.hidden = true;
+
+  if (page === "home") homePage.hidden = false;
+  if (page === "login") loginPage.hidden = false;
+  if (page === "signup") signupPage.hidden = false;
+  if (page === "reset") resetPage.hidden = false;
+
+  window.scrollTo(0, 0);
+}
+</script>
+
+</body>
+</html>
