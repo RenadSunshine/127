@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+good? <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -728,11 +728,26 @@ body{
       <button class="nav-toggle" id="navToggle">☰</button>
 
       <ul class="nav-menu" id="navMenu">
-        <li><a class="nav-link nav-pill nav-pill--active" href="#" onclick="showPage('home')">Home</a></li>
-        <li><a class="nav-link" href="#" onclick="viewEvents()">Event List</a></li>
-        <li><a class="nav-link nav-pill nav-pill--gray" href="#" onclick="showPage('login')">Login</a></li>
-        <li><a class="nav-link nav-pill nav-pill--primary" href="#" onclick="showPage('signup')">Sign Up</a></li>
-      </ul>
+  <li>
+    <a class="nav-link nav-pill" data-page="home"
+       href="#" onclick="showPage('home')">Home</a>
+  </li>
+
+  <li>
+    <a class="nav-link" data-page="events"
+       href="#" onclick="viewEvents()">Event List</a>
+  </li>
+
+  <li>
+    <a class="nav-link nav-pill nav-pill--gray" data-page="login"
+       href="#" onclick="showPage('login')">Login</a>
+  </li>
+
+  <li>
+    <a class="nav-link nav-pill nav-pill--primary" data-page="signup"
+       href="#" onclick="showPage('signup')">Sign Up</a>
+  </li>
+</ul>
     </div>
   </nav>
 </header>
@@ -817,7 +832,7 @@ body{
       <div class="container about-inner">
         <h2>About Us</h2>
         <p>
-          Your on-stop platform for discovering booking tickets for all of events.
+          Your one-stop platform for discovering and booking tickets for all events.
           From fairs and exhibitions to sports, entertainment, and volunteering, we make it easy to find
           your next experience.
         </p>
@@ -834,7 +849,7 @@ body{
 
         <div class="cards">
           <!-- Card 1 -->
-          <article class="card">
+          <article class="card" data-date="2026-06-01">
             <div class="card-img">
               <img src="y1.png" alt="Summer Music Festival 2026" loading="lazy">
               <span class="badge badge-ent">Entertainment</span>
@@ -867,7 +882,7 @@ body{
           </article>
 
           <!-- Card 2 -->
-          <article class="card">
+          <article class="card" data-date="2026-09-15">
             <div class="card-img">
               <img src="j1.png" alt="National Sports Championship" loading="lazy">
               <span class="badge badge-sport">Sports</span>
@@ -888,7 +903,7 @@ body{
           </article>
 
           <!-- Card 3 -->
-          <article class="card">
+          <article class="card" data-date="2026-10-25">
             <div class="card-img">
               <img src="a1.png" alt="Tech & Innovation Expo" loading="lazy">
               <span class="badge badge-expo">Exhibition</span>
@@ -927,18 +942,18 @@ body{
       <p class="auth-subtitle">Log in to your account to book events.</p>
 
       <div class="auth-tabs">
-        <a href="login.html" class="tab active">Login</a>
-        <a href="signup.html" class="tab">Sign Up</a>
+        <a href="#" class="tab active" onclick="showPage('login')">Login</a>
+        <a href="#" class="tab" onclick="showPage('signup')">Sign Up</a>
       </div>
 
       <form id="loginForm" onsubmit="handleLogin(event)">
-        <label class="label" for="email">Email</label>
-        <input class="input" type="email" id="email" placeholder="you@example.com" required />
+        <label class="label" for="loginEmail">Email</label>
+        <input class="input" type="email" id="loginEmail" placeholder="you@example.com" required />
 
-        <label class="label" for="password">Password</label>
+        <label class="label" for="loginPassword">Password</label>
         <div class="input-wrap">
-          <input class="input" type="password" id="password" placeholder="Enter your password" required />
-          <button type="button" class="icon-btn" onclick="togglePassword('password', this)" aria-label="Show password">👁️</button>
+          <input class="input" type="password" id="loginPassword" placeholder="Enter your password" required />
+          <button type="button" class="icon-btn" onclick="togglePassword('loginPassword', this)">👁️</button>
         </div>
 
         <div class="row-right">
@@ -950,11 +965,12 @@ body{
         <button type="submit" class="btn btn-primary btn-block">Login</button>
 
         <p class="auth-footer">
-          Don’t have an account? <a class="link" href="signup.html">Sign Up</a>
+          Don’t have an account?
+         <a class="link" href="#" onclick="showPage('signup')">Sign Up</a>
         </p>
       </form>
 
-      <a class="back-home" href="index.html">Return to Home Page</a>
+      <a class="back-home" href="#" onclick="showPage('home')">Return to Home Page</a>
     </div>
   </main>
 
@@ -967,27 +983,27 @@ body{
       <p class="auth-subtitle">Create a new account to start booking.</p>
 
       <div class="auth-tabs">
-        <a href="login.html" class="tab">Login</a>
-        <a href="signup.html" class="tab active">Sign Up</a>
+        <a href="#" class="tab" onclick="showPage('login')">Login</a>
+        <a href="#" class="tab active" onclick="showPage('signup')">Sign Up</a>
       </div>
 
       <form id="signupForm" onsubmit="handleSignup(event)">
         <label class="label" for="name">Name</label>
-        <input class="input" type="text" id="name" placeholder="Your name" required />
+        <input class="input" type="text" id="signupName" required>
 
         <label class="label" for="email">Email</label>
-        <input class="input" type="email" id="email" placeholder="you@example.com" required />
+        <input class="input" type="email" id="signupEmail" required>
 
-        <label class="label" for="password">Password</label>
+        <label class="label" for="signupPassword">Password</label>
         <div class="input-wrap">
-          <input class="input" type="password" id="password" placeholder="Minimum 6 characters" required />
-          <button type="button" class="icon-btn" onclick="togglePassword('password', this)" aria-label="Show password">👁️</button>
+          <input class="input" type="password" id="signupPassword" required>
+          <button type="button" class="icon-btn" onclick="togglePassword('signupPassword', this)">👁️</button>
         </div>
 
-        <label class="label" for="confirmPassword">Confirm Password</label>
+        <label class="label" for="signupConfirmPassword">Confirm Password</label>
         <div class="input-wrap">
-          <input class="input" type="password" id="confirmPassword" placeholder="Re-enter your password" required />
-          <button type="button" class="icon-btn" onclick="togglePassword('confirmPassword', this)" aria-label="Show password">👁️</button>
+          <input class="input" type="password" id="signupConfirmPassword" required>
+          <button type="button" class="icon-btn" onclick="togglePassword('signupConfirmPassword', this)">👁️</button>
         </div>
 
         <div id="signupError" class="error-message" style="display:none;"></div>
@@ -995,11 +1011,11 @@ body{
         <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
 
         <p class="auth-footer">
-          Already have an account? <a class="link" href="login.html">Login</a>
+          Already have an account? <a class="link" href="#" onclick="showPage('login')">Login</a>
         </p>
       </form>
 
-      <a class="back-home" href="index.html">Return to Home Page</a>
+      <a class="back-home" href="#" onclick="showPage('home')">Return to Home Page</a>
     </div>
   </main>
 
@@ -1016,7 +1032,7 @@ body{
     <form onsubmit="handleResetPassword(event)">
       <label class="label" for="newPassword">New Password</label>
       <div class="input-wrap">
-        <input class="input" type="password" id="newPassword" placeholder="Minimum 6 characters" required />
+        <input class="input" type="password" id="newPassword" placeholder="Minimum 8 characters" required />
         <button type="button" class="icon-btn" onclick="togglePassword('newPassword', this)" aria-label="Show password">👁️</button>
       </div>
 
@@ -1031,7 +1047,7 @@ body{
       <button type="submit" class="btn btn-primary btn-block">Create Password</button>
     </form>
 
-    <a class="back-home" href="login.html">Back to Login</a>
+    <a class="back-home" href="#" onclick="showPage('login')">Back to Login</a>
   </div>
 </main>
 
@@ -1047,10 +1063,10 @@ body{
 
       <div class="footer-links">
         <h4>SITE MAPS</h4>
-        <a href="index.html">Home</a>
+        <a href="#" onclick="showPage('home')">Home</a>
         <a href="#events">Events List</a>
-        <a href="login.html">Log In</a>
-        <a href="signup.html">Sign Up</a>
+        <a href="#" onclick="showPage('login')">Log In</a>
+        <a href="#" onclick="showPage('signup')">Sign Up</a>
       </div>
 
       <div class="footer-contact">
@@ -1098,10 +1114,13 @@ body{
   </div>
 </div>
 
+
 <!-- ===================== ALL JAVASCRIPT ===================== -->
 <script>
+/* ===================== ON LOAD ===================== */
 document.addEventListener("DOMContentLoaded", () => {
-  // ===== Mobile menu =====
+
+  /* ===== Mobile menu ===== */
   const navToggle = document.getElementById("navToggle");
   const navMenu = document.getElementById("navMenu");
 
@@ -1120,7 +1139,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ===== Hero slider (only works on home page) =====
+  /* ===== Hero slider ===== */
   const slides = Array.from(document.querySelectorAll(".hero-slide"));
   if (slides.length) {
     const prevBtn = document.getElementById("heroPrev");
@@ -1135,13 +1154,13 @@ document.addEventListener("DOMContentLoaded", () => {
     let timer;
 
     function showSlide(i) {
-      slides.forEach((s) => s.classList.remove("hero-slide--active"));
+      slides.forEach(s => s.classList.remove("hero-slide--active"));
       slides[i].classList.add("hero-slide--active");
 
-      if (tagEl) tagEl.textContent = slides[i].dataset.tag || "";
-      if (titleEl) titleEl.textContent = slides[i].dataset.title || "";
-      if (dateEl) dateEl.textContent = slides[i].dataset.date || "";
-      if (placeEl) placeEl.textContent = slides[i].dataset.place || "";
+      tagEl.textContent = slides[i].dataset.tag || "";
+      titleEl.textContent = slides[i].dataset.title || "";
+      dateEl.textContent = slides[i].dataset.date || "";
+      placeEl.textContent = slides[i].dataset.place || "";
     }
 
     function next() {
@@ -1174,225 +1193,189 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-// ===================== COMMON FUNCTIONS =====================
+/* ===================== COMMON ===================== */
 
 function togglePassword(inputId, button) {
   const input = document.getElementById(inputId);
   if (!input) return;
 
-  if (input.type === "password") {
-    input.type = "text";
-    button.textContent = "👁️‍🗨️";
-  } else {
-    input.type = "password";
-    button.textContent = "👁️";
-  }
+  input.type = input.type === "password" ? "text" : "password";
+  button.textContent = input.type === "text" ? "👁️‍🗨️" : "👁️";
 }
 
 function viewEvents() {
-  const el = document.getElementById("events");
-  if (el) el.scrollIntoView({ behavior: "smooth" });
+  document.getElementById("events")?.scrollIntoView({ behavior: "smooth" });
 }
 
+/* ===================== SEARCH BY DATE ===================== */
 function searchEvents() {
-  const searchDate = document.getElementById("dateSearch")?.value;
-  if (!searchDate) return alert("Please select a date to search");
-  alert(`Searching for events on: ${new Date(searchDate).toLocaleDateString()}`);
+  const selectedDate = document.getElementById("dateSearch").value;
+  const cards = document.querySelectorAll(".card");
+  let found = false;
+
+  if (!selectedDate) {
+    alert("Please select a date first.");
+    return;
+  }
+
+  cards.forEach(card => {
+    if (card.dataset.date === selectedDate) {
+      card.style.display = "block";
+      found = true;
+    } else {
+      card.style.display = "none";
+    }
+  });
+
+  if (!found) {
+    alert("No events found for the selected date.");
+  }
 }
 
 function bookEvent(name) {
   alert(`You're about to book: ${name}\nPlease login to complete your booking.`);
-  window.location.href = "login.html";
+  showPage("login");
 }
 
-// ===================== VALIDATION =====================
+/* ===================== VALIDATION ===================== */
 
-// Strict email validation (rejects j.@g.c / name@/name.com / etc.)
 function isValidEmail(email) {
   if (/\s/.test(email)) return false;
-
-  const re =
-    /^[A-Za-z0-9]+([._%+-]?[A-Za-z0-9]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,24}$/;
-
-  if (!re.test(email)) return false;
-  if (email.includes("..")) return false;
-  return true;
+  const re = /^[A-Za-z0-9]+([._%+-]?[A-Za-z0-9]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,24}$/;
+  return re.test(email) && !email.includes("..");
 }
 
-// Strong password: 8+ chars, 1 letter, 1 number, 1 special
 function isStrongPassword(password) {
-  const hasLength = password.length >= 8;
-  const hasLetter = /[A-Za-z]/.test(password);
-  const hasNumber = /[0-9]/.test(password);
-  const hasSpecial = /[^A-Za-z0-9]/.test(password);
-  return hasLength && hasLetter && hasNumber && hasSpecial;
+  return (
+    password.length >= 8 &&
+    /[A-Za-z]/.test(password) &&
+    /[0-9]/.test(password) &&
+    /[^A-Za-z0-9]/.test(password)
+  );
 }
-
-// ===================== ERROR MESSAGE =====================
 
 function showError(div, message) {
   if (!div) return;
   div.textContent = message;
   div.style.display = "block";
-  setTimeout(() => (div.style.display = "none"), 3000);
+  setTimeout(() => (div.style.display = "none"), 5000);
 }
 
 document.addEventListener("input", (e) => {
   if (e.target.matches("input")) {
-    const form = e.target.closest("form");
-    const errorDiv = form?.querySelector(".error-message");
+    const errorDiv = e.target.closest("form")?.querySelector(".error-message");
     if (errorDiv) errorDiv.style.display = "none";
   }
 });
 
-// ===================== FORGOT PASSWORD MODAL =====================
+/* ===================== FORGOT PASSWORD ===================== */
 
 function openForgotModal() {
   const modal = document.getElementById("forgotModal");
-  const emailInput = document.getElementById("forgotEmail");
-  const err = document.getElementById("forgotError");
-
-  if (err) err.style.display = "none";
-  if (emailInput) emailInput.value = "";
-
-  modal?.classList.add("show");
-  modal?.setAttribute("aria-hidden", "false");
-  emailInput?.focus();
+  document.getElementById("forgotEmail").value = "";
+  modal.classList.add("show");
 }
 
 function closeForgotModal() {
-  const modal = document.getElementById("forgotModal");
-  modal?.classList.remove("show");
-  modal?.setAttribute("aria-hidden", "true");
+  document.getElementById("forgotModal").classList.remove("show");
 }
 
 function sendResetLink() {
-  const email = document.getElementById("forgotEmail")?.value.trim();
+  const email = document.getElementById("forgotEmail").value.trim();
   const err = document.getElementById("forgotError");
 
-  if (!email) return showError(err, "Please enter your email first.");
-  if (!isValidEmail(email)) return showError(err, "Your email is not correct. Please try again.");
+  if (!email) return showError(err, "Please enter your email.");
+  if (!isValidEmail(email)) return showError(err, "Invalid email address.");
 
-  // Demo: save requested email
   localStorage.setItem("resetEmail", email);
-
   closeForgotModal();
-  alert("We sent a reset link to your email. (Demo) You will now go to the reset page.");
-  window.location.href = "reset-password.html";
+  alert("Reset link sent (demo).");
+  showPage("reset");
 }
 
-// ===================== LOGIN =====================
+/* ===================== LOGIN ===================== */
 
 function handleLogin(event) {
   event.preventDefault();
 
-  const email = document.getElementById("email")?.value.trim();
-  const password = document.getElementById("password")?.value;
+  const email = loginEmail.value.trim();
+  const password = loginPassword.value;
   const errorDiv = document.getElementById("loginError");
 
-  if (!email || !password) return showError(errorDiv, "Please fill in all fields.");
-  if (!isValidEmail(email)) return showError(errorDiv, "Your email is not correct. Please try again.");
+  if (!isValidEmail(email)) return showError(errorDiv, "Invalid email.");
+  if (!isStrongPassword(password)) return showError(errorDiv, "Invalid password.");
 
-  // Password rule (your requirement)
-  if (!isStrongPassword(password)) {
-    return showError(
-      errorDiv,
-      "Password must be at least 8 characters and include 1 letter, 1 number, and 1 special character."
-    );
+  if (
+    email !== localStorage.getItem("userEmail") ||
+    password !== localStorage.getItem("userPassword")
+  ) {
+    return showError(errorDiv, "Wrong email or password.");
   }
 
-  // Demo account check (saved from signup / reset)
-  const savedEmail = localStorage.getItem("userEmail");
-  const savedPassword = localStorage.getItem("userPassword");
-
-  if (!savedEmail || !savedPassword) {
-    return showError(errorDiv, "Your email or password is wrong. Please try again.");
-  }
-
-  if (email !== savedEmail || password !== savedPassword) {
-    return showError(errorDiv, "Your email or password is wrong. Please try again.");
-  }
-
-  alert("Login successful! Welcome back to EventGO.");
-  window.location.href = "index.html";
+  alert("Login successful!");
+  showPage("home");
 }
 
-// ===================== SIGNUP =====================
+/* ===================== SIGNUP ===================== */
 
 function handleSignup(event) {
   event.preventDefault();
 
-  const name = document.getElementById("name")?.value.trim();
-  const email = document.getElementById("email")?.value.trim();
-  const password = document.getElementById("password")?.value;
-  const confirmPassword = document.getElementById("confirmPassword")?.value;
+  const email = signupEmail.value.trim();
+  const password = signupPassword.value;
+  const confirm = signupConfirmPassword.value;
   const errorDiv = document.getElementById("signupError");
 
-  if (!name || !email || !password || !confirmPassword) return showError(errorDiv, "Please fill in all fields.");
-  if (!isValidEmail(email)) return showError(errorDiv, "Your email is not correct. Please try again.");
+  if (!isValidEmail(email)) return showError(errorDiv, "Invalid email.");
+  if (!isStrongPassword(password)) return showError(errorDiv, "Weak password.");
+  if (password !== confirm) return showError(errorDiv, "Passwords do not match.");
 
-  if (!isStrongPassword(password)) {
-    return showError(
-      errorDiv,
-      "Password must be at least 8 characters and include 1 letter, 1 number, and 1 special character."
-    );
-  }
-
-  if (password !== confirmPassword) return showError(errorDiv, "Passwords do not match.");
-
-  // Save demo account
   localStorage.setItem("userEmail", email);
   localStorage.setItem("userPassword", password);
 
-  alert("Sign up successful! Welcome to EventGO. Please login.");
-  window.location.href = "login.html";
+  alert("Signup successful!");
+  showPage("login");
 }
 
-// ===================== RESET PASSWORD PAGE =====================
-// Call this from reset-password.html form: onsubmit="handleResetPassword(event)"
+/* ===================== RESET PASSWORD ===================== */
 
 function handleResetPassword(event) {
   event.preventDefault();
 
-  const newPass = document.getElementById("newPassword")?.value || "";
-  const confirmPass = document.getElementById("confirmNewPassword")?.value || "";
+  const newPass = newPassword.value;
+  const confirmPass = confirmNewPassword.value;
   const err = document.getElementById("resetError");
 
-  if (!isStrongPassword(newPass)) {
-    return showError(
-      err,
-      "Password must be at least 8 characters and include 1 letter, 1 number, and 1 special character."
-    );
-  }
-
+  if (!isStrongPassword(newPass)) return showError(err, "Weak password.");
   if (newPass !== confirmPass) return showError(err, "Passwords do not match.");
 
-  const oldPass = localStorage.getItem("userPassword");
-  if (oldPass && newPass === oldPass) {
-    return showError(err, "You cannot use your old password. Please choose a new one.");
-  }
-
   localStorage.setItem("userPassword", newPass);
-
-  alert("Your password has been updated. Please log in with your new password.");
-  window.location.href = "login.html";
+  alert("Password updated!");
+  showPage("login");
 }
 
-/* ===== PAGE SWITCHING ===== */
-function showPage(page) {
-  homePage.hidden = true;
-  loginPage.hidden = true;
-  signupPage.hidden = true;
-  resetPage.hidden = true;
+/* ===================== PAGE SWITCH ===================== */
 
-  if (page === "home") homePage.hidden = false;
-  if (page === "login") loginPage.hidden = false;
-  if (page === "signup") signupPage.hidden = false;
-  if (page === "reset") resetPage.hidden = false;
+function showPage(page) {
+  // Pages
+  ["homePage", "loginPage", "signupPage", "resetPage"].forEach(id => {
+    document.getElementById(id).hidden = true;
+  });
+
+  document.getElementById(page + "Page").hidden = false;
+
+  // ===== Navbar active state =====
+  document.querySelectorAll(".nav-link").forEach(link => {
+    link.classList.remove("nav-pill--active");
+
+    if (link.dataset.page === page) {
+      link.classList.add("nav-pill--active");
+    }
+  });
 
   window.scrollTo(0, 0);
 }
 </script>
 
 </body>
-</html>
+</html>?
